@@ -11,3 +11,10 @@ We have successfully trained our own model, but ultimately opted to retrain Tens
 This repo contains all of our models as well as the template android app (source: Tensorflow examples). 
 
 Team: Ayoub El-Hanchi, Antoine Frau, and Artsiom Skliar
+
+
+## initial-model
+
+This folder contains the CNN we built from scractch using the Keras library. We have reached an accuracy of 92% on the training set and 80% on the validation set. 
+
+## 
