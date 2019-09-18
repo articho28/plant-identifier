@@ -10,6 +10,10 @@ We have successfully trained our own model, but ultimately opted to retrain Tens
 
 This repo contains all of our models as well as the template android app (source: Tensorflow examples). 
 
+The dataset can be downloaded at https://www.dropbox.com/s/7jvh6aeheja9qar/plant-original-dataset.zip?dl=1
+
+Source: PlantVillage
+
 Team: Ayoub El-Hanchi, Antoine Frau, and Artsiom Skliar
 
 
@@ -17,4 +21,14 @@ Team: Ayoub El-Hanchi, Antoine Frau, and Artsiom Skliar
 
 This folder contains the CNN we built from scractch using the Keras library. We have reached an accuracy of 92% on the training set and 80% on the validation set. 
 
-## 
+## transfer-learning-apples
+
+This folder contains a retrained mobilenetv2 model trained to only recognize the apple specimens from the provided dataset.
+
+## transfer-learning-full-dataset
+
+Once we successfully retrained the mobilenetv2, we attempted to train it on the full datasets.
+
+## andrdoid 
+
+This folder contains the app template to launch and deploy the tflite model of choice. 
