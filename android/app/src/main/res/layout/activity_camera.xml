@@ -39,13 +39,17 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:visibility="gone"
             android:layout_alignParentTop="true"
             android:background="@color/semi_transparent">
 
-            <ImageView
+            <TextView
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/tfl_logo" />
+                android:textColor="@color/white"
+                android:textSize="24dp"
+                android:text="rm -rf co2-emissions" />
         </androidx.appcompat.widget.Toolbar>
 
     </RelativeLayout>

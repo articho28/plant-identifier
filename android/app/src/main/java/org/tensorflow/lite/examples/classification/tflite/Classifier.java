@@ -94,11 +94,7 @@ public abstract class Classifier {
    */
   public static Classifier create(Activity activity, Model model, Device device, int numThreads)
       throws IOException {
-    if (model == Model.QUANTIZED) {
-      return new ClassifierQuantizedMobileNet(activity, device, numThreads);
-    } else {
       return new ClassifierFloatMobileNet(activity, device, numThreads);
-    }
   }
 
   /** An immutable result returned by a Classifier describing what was recognized. */

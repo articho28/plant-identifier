@@ -44,12 +44,12 @@ public class ClassifierFloatMobileNet extends Classifier {
 
   @Override
   public int getImageSizeX() {
-    return 224;
+    return 256;
   }
 
   @Override
   public int getImageSizeY() {
-    return 224;
+    return 256;
   }
 
   @Override
@@ -57,12 +57,12 @@ public class ClassifierFloatMobileNet extends Classifier {
     // you can download this file from
     // see build.gradle for where to obtain this file. It should be auto
     // downloaded into assets.
-    return "mobilenet_v1_1.0_224.tflite";
+    return "model-plants-full.tflite";
   }
 
   @Override
   protected String getLabelPath() {
-    return "labels.txt";
+    return "labels-plants.txt";
   }
 
   @Override

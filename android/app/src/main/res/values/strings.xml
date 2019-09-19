@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TfLiteImageClassification</string>
+    <string name="app_name">ArtificialInteliplants</string>
     <string name="description_info">Info</string>
     <string name="request_permission">This sample needs camera permission.</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
@@ -12,8 +12,8 @@
 
     <string name="model">Model:</string>
     <string-array name="models">
-        <item>Quantized</item>
         <item>Float</item>
+        <item>Quantized</item>
     </string-array>
 
     <string name="device">Device:</string>

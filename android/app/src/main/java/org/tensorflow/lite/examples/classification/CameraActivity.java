@@ -19,6 +19,7 @@ package org.tensorflow.lite.examples.classification;
 import android.Manifest;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
@@ -29,6 +30,7 @@ import android.media.Image;
 import android.media.Image.Plane;
 import android.media.ImageReader;
 import android.media.ImageReader.OnImageAvailableListener;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,6 +52,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.util.List;
 import org.tensorflow.lite.examples.classification.env.ImageUtils;
@@ -99,9 +104,13 @@ public abstract class CameraActivity extends AppCompatActivity
   private Spinner deviceSpinner;
   private TextView threadsTextView;
 
-  private Model model = Model.QUANTIZED;
+  private Model model = Model.FLOAT;
   private Device device = Device.CPU;
   private int numThreads = -1;
+
+  private View.OnClickListener recognitionClickListener;
+  private View.OnClickListener recognition1ClickListener;
+  private View.OnClickListener recognition2ClickListener;
 
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
@@ -199,19 +208,41 @@ public abstract class CameraActivity extends AppCompatActivity
     model = Model.valueOf(modelSpinner.getSelectedItem().toString().toUpperCase());
     device = Device.valueOf(deviceSpinner.getSelectedItem().toString());
     numThreads = Integer.parseInt(threadsTextView.getText().toString().trim());
+
+    recognitionClickListener = view -> {
+      String[] query = beautifierPrediction(recognitionTextView.getText().toString());
+      startDiseaseDetailActivity(query[1], query[0], recognitionValueTextView.getText().toString());
+    };
+
+    recognition1ClickListener = view -> {
+        String[] query = beautifierPrediction(recognition1TextView.getText().toString());
+        startDiseaseDetailActivity(query[1], query[0], recognition1ValueTextView.getText().toString());
+    };
+
+    recognition2ClickListener = view -> {
+      String[] query = beautifierPrediction(recognition2TextView.getText().toString());
+      startDiseaseDetailActivity(query[1], query[0], recognition2ValueTextView.getText().toString());
+    };
+
+    recognitionTextView.setOnClickListener(recognitionClickListener);
+    recognitionValueTextView.setOnClickListener(recognitionClickListener);
+    recognition1TextView.setOnClickListener(recognition1ClickListener);
+    recognition1ValueTextView.setOnClickListener(recognition1ClickListener);
+    recognition2TextView.setOnClickListener(recognition2ClickListener);
+    recognition2ValueTextView.setOnClickListener(recognition2ClickListener);
+  }
+
+  private void startDiseaseDetailActivity(String diseaseName, String plantName, String predictionAccuracy) {
+    Intent intent = new Intent(this, DiseaseDetailsActivity.class);
+    intent.putExtra("DISEASE_NAME", diseaseName);
+    intent.putExtra("PLANT_NAME", plantName);
+    intent.putExtra("DISEASE_PREDICTION_ACCURACY", predictionAccuracy);
+    startActivity(intent);
   }
 
   protected int[] getRgbBytes() {
     imageConverter.run();
     return rgbBytes;
-  }
-
-  protected int getLuminanceStride() {
-    return yRowStride;
-  }
-
-  protected byte[] getLuminance() {
-    return yuvBytes[0];
   }
 
   /** Callback for android.hardware.Camera API */
@@ -514,6 +545,16 @@ public abstract class CameraActivity extends AppCompatActivity
       default:
         return 0;
     }
+  }
+
+  private String[] beautifierPrediction(String plantDisease) {
+      if(plantDisease.contains("__")) {
+          String[] plantDiseaseArr = plantDisease.split("__");
+          plantDiseaseArr[0] = plantDiseaseArr[0].replace("_", " ");
+          plantDiseaseArr[1] = plantDiseaseArr[1].replace("_", " ");
+          return plantDiseaseArr;
+      }
+      return new String[] {plantDisease};
   }
 
   @UiThread
